@@ -1,0 +1,28 @@
+Routing refers to determining how an application responds to a client request to a particular endpoint, which is a URI (or path) and a specific HTTP request method (GET, POST, and so on).
+Read more: https://expressjs.com/en/guide/routing.html
+
+To serve static files such as images, CSS files, and JavaScript files, use the express.static built-in middleware function in Express.
+
+- express.static(root, [options])
+Read more: https://expressjs.com/en/4x/api.html#express.static
+
+- res.sendFile(`${__dirname}/index.html`); without app.use(express.static('public')) but with html (and other assets) outside of public
+
+- res.sendFile('index.html'); with app.use(express.static('public')) but with html (and other assets) in of public
+
+To use multiple static assets directories, call the express.static middleware function multiple times:
+
+app.use(express.static('public'))
+app.use(express.static('files'))
+
+To create a virtual path prefix (where the path does not actually exist in the file system) for files that are served by the express.static function, specify a mount path for the static directory, as shown below:
+
+- app.use('/static', express.static('public'))
+
+However, the path that you provide to the express.static function is relative to the directory from where you launch your node process. If you run the express app from another directory, it’s safer to use the absolute path of the directory that you want to serve:
+
+- const path = require('path')
+app.use('/static', express.static(path.join(__dirname, 'public')))
+Read more: https://expressjs.com/en/resources/middleware/serve-static.html
+
+More Examples: https://expressjs.com/en/starter/examples.html
